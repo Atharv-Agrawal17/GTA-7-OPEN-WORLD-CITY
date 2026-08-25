@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="
+            width=device-width,
+            initial-scale=1.0,
+            maximum-scale=1.0,
+            user-scalable=no
+        "
+    >
+
+    <meta
+        name="description"
+        content="City Legends - Open World 3D Adventure"
+    >
+
+    <title>City Legends</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     GAME ROOT
+========================================================= -->
+
+<div id="game">
+
+    <!-- =====================================================
+         LOADING SCREEN
+    ====================================================== -->
+
+    <section id="loadingScreen">
+
+        <div class="loadingLogo">
+            CITY LEGENDS
+        </div>
+
+        <div class="loadingSubtitle">
+            OPEN WORLD
+        </div>
+
+        <div class="loadingContainer">
+
+            <div class="loadingTrack">
+                <div
+                    id="loadingProgress"
+                    class="loadingProgress"
+                ></div>
+            </div>
+
+            <div id="loadingStatus">
+                INITIALIZING WORLD...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAIN MENU
+    ====================================================== -->
+
+    <section
+        id="mainMenu"
+        class="screen hidden"
+    >
+
+        <div class="menuBackground"></div>
+
+        <div class="mainMenuContent">
+
+            <h1 class="gameTitle">
+                CITY LEGENDS
+            </h1>
+
+            <p class="gameSubtitle">
+                THE CITY NEVER SLEEPS
+            </p>
+
+            <div class="menuButtons">
+
+                <button id="newGameButton">
+                    NEW GAME
+                </button>
+
+                <button id="continueButton">
+                    CONTINUE
+                </button>
+
+                <button id="settingsButton">
+                    SETTINGS
+                </button>
+
+                <button id="creditsButton">
+                    CREDITS
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         3D WORLD CONTAINER
+    ====================================================== -->
+
+    <main id="world">
+
+        <canvas id="gameCanvas"></canvas>
+
+    </main>
+
+
+    <!-- =====================================================
+         HUD
+    ====================================================== -->
+
+    <section
+        id="hud"
+        class="hidden"
+    >
+
+        <!-- PLAYER STATUS -->
+
+        <div id="playerStatus">
+
+            <div class="statusRow">
+
+                <span class="statusLabel">
+                    HEALTH
+                </span>
+
+                <div class="bar">
+
+                    <div
+                        id="healthBar"
+                        class="barFill healthFill"
+                    ></div>
+
+                </div>
+
+                <span id="healthValue">
+                    100
+                </span>
+
+            </div>
+
+
+            <div class="statusRow">
+
+                <span class="statusLabel">
+                    STAMINA
+                </span>
+
+                <div class="bar">
+
+                    <div
+                        id="staminaBar"
+                        class="barFill staminaFill"
+                    ></div>
+
+                </div>
+
+                <span id="staminaValue">
+                    100
+                </span>
+
+            </div>
+
+
+            <div class="statusRow">
+
+                <span class="statusLabel">
+                    ARMOR
+                </span>
+
+                <div class="bar">
+
+                    <div
+                        id="armorBar"
+                        class="barFill armorFill"
+                    ></div>
+
+                </div>
+
+                <span id="armorValue">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- MONEY -->
+
+        <div id="moneyDisplay">
+
+            <span class="moneySymbol">
+                $
+            </span>
+
+            <span id="moneyValue">
+                500
+            </span>
+
+        </div>
+
+
+        <!-- WANTED -->
+
+        <div id="wantedDisplay">
+
+            <div class="wantedTitle">
+                WANTED
+            </div>
+
+            <div id="wantedStars">
+
+                <span>☆</span>
+                <span>☆</span>
+                <span>☆</span>
+                <span>☆</span>
+                <span>☆</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CURRENT WEAPON -->
+
+        <div id="weaponDisplay">
+
+            <div id="weaponName">
+                UNARMED
+            </div>
+
+            <div id="ammoDisplay">
+                <span id="ammoCurrent">0</span>
+                /
+                <span id="ammoReserve">0</span>
+            </div>
+
+        </div>
+
+
+        <!-- MISSION -->
+
+        <div id="missionDisplay">
+
+            <div class="missionHeader">
+                CURRENT MISSION
+            </div>
+
+            <div id="missionTitle">
+                EXPLORE THE CITY
+            </div>
+
+            <div id="missionObjective">
+                Explore the surrounding area.
+            </div>
+
+        </div>
+
+
+        <!-- LOCATION -->
+
+        <div id="locationDisplay">
+
+            <div id="locationName">
+                DOWNTOWN
+            </div>
+
+            <div id="districtName">
+                CENTRAL DISTRICT
+            </div>
+
+        </div>
+
+
+        <!-- MINIMAP -->
+
+        <div id="minimapContainer">
+
+            <canvas
+                id="minimapCanvas"
+                width="300"
+                height="300"
+            ></canvas>
+
+            <div id="minimapPlayer"></div>
+
+            <div id="minimapNorth">
+                N
+            </div>
+
+        </div>
+
+
+        <!-- SPEEDOMETER -->
+
+        <div
+            id="vehicleHUD"
+            class="hidden"
+        >
+
+            <div id="vehicleName">
+                CITY RUNNER
+            </div>
+
+            <div id="speedometer">
+
+                <span id="speedValue">
+                    0
+                </span>
+
+                <span class="speedUnit">
+                    KM/H
+                </span>
+
+            </div>
+
+            <div id="fuelContainer">
+
+                <span>
+                    FUEL
+                </span>
+
+                <div class="fuelBar">
+
+                    <div
+                        id="fuelBarFill"
+                        class="fuelBarFill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CROSSHAIR -->
+
+        <div id="crosshair">
+
+            <span></span>
+
+        </div>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div id="notifications"></div>
+
+
+        <!-- INTERACTION PROMPT -->
+
+        <div
+            id="interactionPrompt"
+            class="hidden"
+        >
+
+            <span id="interactionKey">
+                E
+            </span>
+
+            <span id="interactionText">
+                INTERACT
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PHONE
+    ====================================================== -->
+
+    <section
+        id="phone"
+        class="hidden"
+    >
+
+        <div class="phoneFrame">
+
+            <div class="phoneTop">
+
+                <span>
+                    CITY LEGENDS
+                </span>
+
+                <span id="phoneTime">
+                    12:00
+                </span>
+
+            </div>
+
+
+            <div class="phoneScreen">
+
+                <div class="phoneAppGrid">
+
+                    <button class="phoneApp">
+                        MAP
+                    </button>
+
+                    <button class="phoneApp">
+                        CONTACTS
+                    </button>
+
+                    <button class="phoneApp">
+                        MISSIONS
+                    </button>
+
+                    <button class="phoneApp">
+                        STATS
+                    </button>
+
+                    <button class="phoneApp">
+                        VEHICLES
+                    </button>
+
+                    <button class="phoneApp">
+                        SETTINGS
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="closePhone"
+                class="phoneClose"
+            >
+                CLOSE
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FULL MAP
+    ====================================================== -->
+
+    <section
+        id="fullMap"
+        class="screen hidden"
+    >
+
+        <div class="mapHeader">
+
+            <h2>
+                CITY MAP
+            </h2>
+
+            <button id="closeMap">
+                CLOSE
+            </button>
+
+        </div>
+
+        <div id="largeMap">
+
+            <canvas
+                id="largeMapCanvas"
+            ></canvas>
+
+        </div>
+
+        <div class="mapLegend">
+
+            <div>
+                ● PLAYER
+            </div>
+
+            <div>
+                ◆ MISSION
+            </div>
+
+            <div>
+                ■ SHOP
+            </div>
+
+            <div>
+                ▲ GARAGE
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INVENTORY
+    ====================================================== -->
+
+    <section
+        id="inventory"
+        class="screen hidden"
+    >
+
+        <div class="panel">
+
+            <div class="panelHeader">
+
+                <h2>
+                    INVENTORY
+                </h2>
+
+                <button id="closeInventory">
+                    X
+                </button>
+
+            </div>
+
+
+            <div
+                id="inventoryGrid"
+                class="inventoryGrid"
+            >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PLAYER STATISTICS
+    ====================================================== -->
+
+    <section
+        id="statistics"
+        class="screen hidden"
+    >
+
+        <div class="panel statisticsPanel">
+
+            <div class="panelHeader">
+
+                <h2>
+                    PLAYER STATISTICS
+                </h2>
+
+                <button id="closeStatistics">
+                    X
+                </button>
+
+            </div>
+
+
+            <div class="statisticsGrid">
+
+                <div class="statBox">
+
+                    <span>
+                        DISTANCE WALKED
+                    </span>
+
+                    <strong id="statDistance">
+                        0 KM
+                    </strong>
+
+                </div>
+
+
+                <div class="statBox">
+
+                    <span>
+                        DISTANCE DRIVEN
+                    </span>
+
+                    <strong id="statDriven">
+                        0 KM
+                    </strong>
+
+                </div>
+
+
+                <div class="statBox">
+
+                    <span>
+                        MISSIONS
+                    </span>
+
+                    <strong id="statMissions">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="statBox">
+
+                    <span>
+                        MONEY EARNED
+                    </span>
+
+                    <strong id="statMoney">
+                        $0
+                    </strong>
+
+                </div>
+
+
+                <div class="statBox">
+
+                    <span>
+                        VEHICLES OWNED
+                    </span>
+
+                    <strong id="statVehicles">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="statBox">
+
+                    <span>
+                        PLAY TIME
+                    </span>
+
+                    <strong id="statPlayTime">
+                        00:00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         GARAGE
+    ====================================================== -->
+
+    <section
+        id="garage"
+        class="screen hidden"
+    >
+
+        <div class="panel">
+
+            <div class="panelHeader">
+
+                <h2>
+                    GARAGE
+                </h2>
+
+                <button id="closeGarage">
+                    X
+                </button>
+
+            </div>
+
+
+            <div id="garageVehicles">
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SHOP
+    ====================================================== -->
+
+    <section
+        id="shop"
+        class="screen hidden"
+    >
+
+        <div class="panel">
+
+            <div class="panelHeader">
+
+                <h2>
+                    SHOP
+                </h2>
+
+                <button id="closeShop">
+                    X
+                </button>
+
+            </div>
+
+
+            <div id="shopItems">
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MISSIONS
+    ====================================================== -->
+
+    <section
+        id="missions"
+        class="screen hidden"
+    >
+
+        <div class="panel">
+
+            <div class="panelHeader">
+
+                <h2>
+                    MISSIONS
+                </h2>
+
+                <button id="closeMissions">
+                    X
+                </button>
+
+            </div>
+
+
+            <div id="missionList">
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PAUSE MENU
+    ====================================================== -->
+
+    <section
+        id="pauseMenu"
+        class="screen hidden"
+    >
+
+        <div class="pausePanel">
+
+            <h1>
+                PAUSED
+            </h1>
+
+            <button id="resumeButton">
+                RESUME
+            </button>
+
+            <button id="pauseMapButton">
+                MAP
+            </button>
+
+            <button id="pauseSettingsButton">
+                SETTINGS
+            </button>
+
+            <button id="saveButton">
+                SAVE GAME
+            </button>
+
+            <button id="mainMenuButton">
+                MAIN MENU
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SETTINGS
+    ====================================================== -->
+
+    <section
+        id="settings"
+        class="screen hidden"
+    >
+
+        <div class="panel settingsPanel">
+
+            <div class="panelHeader">
+
+                <h2>
+                    SETTINGS
+                </h2>
+
+                <button id="closeSettings">
+                    X
+                </button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <label>
+                    GRAPHICS QUALITY
+                </label>
+
+                <select id="graphicsQuality">
+
+                    <option>
+                        LOW
+                    </option>
+
+                    <option selected>
+                        MEDIUM
+                    </option>
+
+                    <option>
+                        HIGH
+                    </option>
+
+                    <option>
+                        ULTRA
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="setting">
+
+                <label>
+                    SOUND VOLUME
+                </label>
+
+                <input
+                    id="soundVolume"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="80"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <label>
+                    MUSIC VOLUME
+                </label>
+
+                <input
+                    id="musicVolume"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="70"
+                >
+
+            </div>
+
+
+            <div class="setting">
+
+                <label>
+                    CAMERA SENSITIVITY
+                </label>
+
+                <input
+                    id="cameraSensitivity"
+                    type="range"
+                    min="1"
+                    max="100"
+                    value="50"
+                >
+
+            </div>
+
+
+            <button id="applySettings">
+                APPLY
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DIALOGUE
+    ====================================================== -->
+
+    <section
+        id="dialogue"
+        class="hidden"
+    >
+
+        <div class="dialogueBox">
+
+            <div id="dialogueCharacter">
+                CHARACTER
+            </div>
+
+            <div id="dialogueText">
+                ...
+            </div>
+
+            <button id="dialogueContinue">
+                CONTINUE
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         TOUCH CONTROLS
+    ====================================================== -->
+
+    <section
+        id="touchControls"
+        class="hidden"
+    >
+
+        <div id="joystick">
+
+            <div id="joystickKnob"></div>
+
+        </div>
+
+
+        <div id="cameraTouchArea"></div>
+
+
+        <div id="actionButtons">
+
+            <button id="touchJump">
+                JUMP
+            </button>
+
+            <button id="touchRun">
+                RUN
+            </button>
+
+            <button id="touchEnter">
+                ENTER
+            </button>
+
+            <button id="touchAttack">
+                ACTION
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DEBUG INFORMATION
+    ====================================================== -->
+
+    <section
+        id="debugPanel"
+        class="hidden"
+    >
+
+        <div>
+            FPS:
+            <span id="debugFPS">
+                0
+            </span>
+        </div>
+
+        <div>
+            POSITION:
+            <span id="debugPosition">
+                0, 0, 0
+            </span>
+        </div>
+
+        <div>
+            OBJECTS:
+            <span id="debugObjects">
+                0
+            </span>
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     GAME SCRIPTS
+========================================================= -->
+
+<script
+    type="module"
+    src="./js/main.js"
+></script>
+
+</body>
+
+</html>
